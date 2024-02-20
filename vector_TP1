@@ -1,0 +1,128 @@
+
+class Institut {
+    Vector<Groupe> list_groupes = new Vector<>();
+    void add_groupe(Groupe g){ list_groupes.add(g);  }
+    void afficher_groupes (){
+        for (Groupe g : list_groupes){
+            System.out.println(g.toString());
+        }
+    }
+    float MG_groupes(){
+        float tot =0;
+        for (Groupe g : list_groupes)
+            tot+=g.mg();
+        return tot/list_groupes.size() ;
+    }
+}
+
+class Groupe {
+Etudiant[] t= new Etudiant [5];
+    void charger_etuds() {
+        // b. Remplissage du tableau avec 5 étudiants
+        t[0] = new Ing(100, "ali b med", 18, "stageA", "stageB");
+        t[1] = new Lmd(200, "salma b salem", 19, "PFE1");
+        t[2] = new Etudiant(300, "Ahlem", 10);
+        t[3] = new Lmd(400, "Meryem", 12, "PFE2");
+        t[4] = new Ing(500, "Motaz", 13, "internship1", "internship2");
+    }
+
+    void afficher() {
+        for (int i = 0; i < 5; i++) System.out.println(t[i].tostring());
+    }
+
+    float mg() {
+        float tot = 0;
+        for (int i = 0; i < 5; i++) tot += t[i].moy;
+        return tot / 5;
+    }
+
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (Etudiant e : t) {
+            str.append(e.tostring()).append("\n");
+        }
+        return str.toString();
+    }
+}
+
+class Lmd extends Etudiant {
+    String pfe;
+
+
+    Lmd(int id, String nom, float moy, String pfe) {
+        super(id, nom, moy);
+        this.pfe = pfe;
+    }
+    public String tostring() {
+        return "Lmd: "
+                + super.tostring()
+                + ", PFE: " + this.pfe;
+    }
+}
+
+class Ing extends Etudiant {
+    String stage1;
+    String stage2;
+
+
+    Ing(int id, String nom, float moy, String stage1, String stage2) {
+        super(id, nom, moy);
+        this.stage1 = stage1;
+        this.stage2 = stage2;
+    }
+
+    public String tostring() {
+        return "Ing: " +
+                super.tostring()
+                + ", Stage1: " + this.stage1 + ", Stage2: " + this.stage2;
+    }
+}
+
+class Etudiant {
+    private int id;
+    String nom;
+    float moy;
+
+
+    Etudiant(int id, String nom, float moy) {
+        this.id = id;
+        this.nom = nom;
+        this.moy = moy;
+    }
+
+    public int getId() {    return id; }
+
+    public void setId(int id) { this.id = id; }
+
+    public String getNom() {   return nom;  }
+
+    public void setNom(String nom) {this.nom =nom;}
+
+    public float getMoy() {return this.moy;}
+
+    public void setMoy(float moy) {this.moy=moy;}
+
+    String tostring() {
+        return String.valueOf(this.id) + "\t" + this.nom + "\t" + String.valueOf(this.moy);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Groupe tic1 = new Groupe();
+        tic1.charger_etuds();
+        tic1.afficher();
+        System.out.println("\nMoy. générale des 5 étudiants : " + tic1.mg());
+
+        Groupe tic2 = new Groupe();
+        tic2.charger_etuds();
+
+        Institut issat = new Institut();
+
+        issat.add_groupe(tic1);
+        issat.add_groupe(tic2);
+        issat.afficher_groupes();
+        System.out.println("issat.MG_groupes()"+issat.MG_groupes());
+
+    }
+}
